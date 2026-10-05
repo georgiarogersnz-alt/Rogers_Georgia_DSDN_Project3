@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<!--
+  =============================================================
+  HOME PAGE  (index.html)
+  =============================================================
+  This is the front page of your portfolio.
+
+  It has three sections. Work and About cover the minimum
+  requirements from the brief:
+    1. HERO      - your name + one line about you
+    2. WORK      - a grid of your projects, each   (required)
+                   possibly more than one row (see
+                   "Exploration of Bokeh" below, which
+                   has a slideshow row AND a collage row)
+    3. ABOUT     - a short paragraph about you    (required)
+
+  Anywhere you see the word REPLACE, that is content for YOU
+  to change. Don't leave any REPLACE text in your final site!
+
+  TIP: Ask Claude things like
+    "Change the hero heading to my name and make the subtitle
+     say I'm a photography student."
+  =============================================================
+-->
+<html lang="en-NZ">
+<head>
+  <meta charset="UTF-8" />
+  <!-- This meta tag is what makes the site work on phones. Leave it in. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- REPLACE: the browser tab title -->
+  <title>Georgia Rogers — Portfolio</title>
+
+  <!-- REPLACE: a one-line description search engines show -->
+  <meta name="description" content="Portfolio of Georgia Rogers, a design student at Te Herenga Waka." />
+
+  <!-- The little icon in the browser tab. Replace assets/favicon.svg with your own. -->
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+
+  <!-- Photography-portfolio theme fonts: Playfair Display (serif
+       headings) + UnifrakturCook (gothic blackletter, used once for
+       the hero name) + Poppins (body text) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=UnifrakturCook:wght@700&family=Poppins:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Skip link: lets keyboard users jump straight to the main content
+       instead of tabbing through the menu. It's hidden until focused. -->
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ===================== NAVIGATION BAR ===================== -->
+  <header class="site-header">
+    <div class="container nav">
+      <!-- REPLACE: your name / logo text -->
+      <a href="index.html" class="nav__logo">Georgia Rogers</a>
+
+      <!-- The button below only shows on small screens (phones). -->
+      <button class="nav__toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav__links">
+        <!-- "Work" opens a dropdown of the three projects underneath
+             it (on hover, or via keyboard focus) so a visitor can
+             jump straight to one instead of scrolling past all of
+             them. Each link points at the "id" added to that
+             project's first row below. -->
+        <div class="nav__item">
+          <a href="#work">Work <span class="nav__caret" aria-hidden="true">&#9662;</span></a>
+          <ul class="nav__dropdown">
+            <li><a href="#project-bokeh">Exploration of Bokeh</a></li>
+            <li><a href="#project-paua">Power of Paua</a></li>
+            <li><a href="#project-monet">Art in new forms</a></li>
+          </ul>
+        </div>
+        <a href="#personal">Personal Project</a>
+        <a href="#about">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ===================== 1. HERO ===================== -->
+    <!-- The section itself now spans the full width of the page (no
+         "container" class) so hero__bg below can stretch edge to
+         edge. hero__inner puts the actual content back inside the
+         normal centred column. -->
+    <section class="hero">
+      <!-- REPLACE the file in assets/ to change this photo. It's set
+           as a CSS background (not an <img>) so it can span full
+           width behind the title — see ".hero__bg" in styles.css. -->
+      <div class="hero__bg" aria-hidden="true"></div>
+
+      <div class="hero__inner container">
+        <p class="hero__eyebrow">2026</p>
+        <!-- REPLACE: your name -->
+        <h1 class="hero__title">Georgia Rogers</h1>
+        <!-- REPLACE: one sentence about what you do -->
+        <p class="hero__subtitle">
+          I am an industrial design student but deep down I am and always will be, a photographer
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================== 2. WORK / PROJECTS (required) ===================== -->
+    <section id="work" class="section container">
+      <h2 class="section__title">Passion of the Frame</h2>
+      <p class="section__intro">
+        This is the portfolio website for my best and proudest photography work. All images were taken and edited entirely by me.
+      </p>
+      <div class="section__divider" aria-hidden="true"></div>
+
+      <!--
+        There is ONE project below to get you started ("Exploration of
+        Bokeh"), made of TWO rows — a slideshow row and a collage row,
+        both part of the same project. Project cards are plain,
+        non-clickable rows — they don't link to separate project pages.
+
+        ★ EASIEST WAY TO ADD ANOTHER PROJECT:
+          Just tell Claude:  "add another project"
+          Claude will make a new card here for you.
+
+        (Prefer to do it by hand? Copy the whole <div class="card">...</div>
+        block below and paste it.)
+
+        Each row is: text on one side, a smaller photo on the other
+        (stacks text-above-photo, or photo-above-text for
+        "card--reverse" rows, on narrow screens — see ".card" in
+        styles.css). Each project photo sits inside a ".polaroid"
+        frame — that's what gives it the hairline border and corner
+        marks. Use "polaroid--tilt-left", "polaroid--tilt-right" or
+        "polaroid--straight" to vary the angle so the photos feel
+        scattered, not lined up.
+      -->
+      <div class="grid">
+
+        <!-- PROJECT 1, ROW 1 — the card image is an automatic
+             slideshow (5 photos cycling on their own, no buttons).
+             script.js finds
+             any element with "data-slideshow" and runs it, and only
+             adds prev/next controls if it finds them in the markup —
+             leaving them out (like here) is enough to make it fully
+             automatic. Add/remove slides by copying or deleting an
+             "<img class="slideshow__slide">" line. -->
+        <div class="card" id="project-bokeh" data-gallery="bokeh">
+          <div class="card__body">
+            <h3 class="card__title">Exploration of Bokeh</h3>
+            <p class="card__meta">Image series · 1 · Colour</p>
+            <p class="card__description">
+              These images were my first exploration in the world of bokeh. It sparked my interest in using lighting and colours in more ways than the traditional photography methods. I made this to show colour and light in abstract forms. I am incredibly proud of these images, and I think they show pure beauty.
+            </p>
+          </div>
+          <div class="polaroid polaroid--tilt-left card__photo" data-slideshow>
+            <div class="slideshow__track">
+              <img class="slideshow__slide is-active" src="assets/P1.png" alt="REPLACE: describe this photo" />
+              <img class="slideshow__slide" src="assets/P2.png" alt="REPLACE: describe this photo" aria-hidden="true" />
+              <img class="slideshow__slide" src="assets/P3.png" alt="REPLACE: describe this photo" aria-hidden="true" />
+              <img class="slideshow__slide" src="assets/P4.png" alt="REPLACE: describe this photo" aria-hidden="true" />
+              <img class="slideshow__slide" src="assets/P5.png" alt="REPLACE: describe this photo" aria-hidden="true" />
+            </div>
+          </div>
+        </div>
+
+        <!-- PROJECT 1, ROW 2 — a photo collage (see ".collage" in
+             styles.css), a second row for the same project: just the
+             photos in a line, no text. Add a 5th+ photo by copying a
+             whole "<div class="polaroid ...">...</div>" block — the
+             grid adapts automatically. -->
+        <div class="collage" data-gallery="bokeh">
+          <div class="polaroid polaroid--tilt-left">
+            <img src="assets/P6.png" alt="REPLACE: describe this photo" />
+          </div>
+          <div class="polaroid polaroid--tilt-right">
+            <img src="assets/P7.png" alt="REPLACE: describe this photo" />
+          </div>
+          <div class="polaroid polaroid--straight">
+            <img src="assets/P8.png" alt="REPLACE: describe this photo" />
+          </div>
+          <div class="polaroid polaroid--tilt-left">
+            <img src="assets/P9.png" alt="REPLACE: describe this photo" />
+          </div>
+        </div>
+
+        <!-- A line + extra space, same as the one between Project 1
+             and Project 2 below — separates "Power of Paua" out as
+             its own project rather than a row of "Exploration of
+             Colour". -->
+        <div class="section__divider section__divider--between-projects" aria-hidden="true"></div>
+
+        <!-- "POWER OF PAUA" — now its own project (used to be a
+             sub-row of Project 1), so its heading is "card__title"
+             (an <h3>, same as every other project title) rather than
+             the smaller "collage__title" used for a sub-row. It has
+             no separate card/link/page of its own, just a title
+             directly above its photo grid. "card--text-only" here
+             just reuses the same rule that lets Project 2's
+             description run the full width instead of the usual
+             45-character line-length cap — this block has no photo
+             column narrowing it, so that cap made it look squeezed
+             into the left side of a much wider row. -->
+        <div class="card--text-only" id="project-paua" data-gallery="paua">
+          <h3 class="card__title">Power of Paua</h3>
+          <p class="card__meta">Image series · 2 · Kaleidoscope</p>
+          <p class="card__description">
+            This project shows the absolute beauty of the Paua shell. Paua is something originally so small found in the ocean, used primarily as food or decorations in cultral maori artworks. In my work, I have framed the images so that no scale is visible and I have utalised the colour that the Paua has. Through these images, it is clear to anyone that there is clear, intense beauty in something that began so small.
+          </p>
+          <div class="collage collage--grid3">
+            <div class="polaroid polaroid--tilt-left">
+              <img src="assets/P10.png" alt="REPLACE: describe this photo" />
+            </div>
+            <div class="polaroid polaroid--tilt-right">
+              <img src="assets/P11.png" alt="REPLACE: describe this photo" />
+            </div>
+            <div class="polaroid polaroid--straight">
+              <img src="assets/P12.png" alt="REPLACE: describe this photo" />
+            </div>
+            <div class="polaroid polaroid--tilt-left">
+              <img src="assets/P13.png" alt="REPLACE: describe this photo" />
+            </div>
+            <div class="polaroid polaroid--tilt-right">
+              <img src="assets/P14.png" alt="REPLACE: describe this photo" />
+            </div>
+            <div class="polaroid polaroid--straight">
+              <img src="assets/P15.png" alt="REPLACE: describe this photo" />
+            </div>
+          </div>
+        </div>
+
+        <!-- A line + extra space between the two projects — reuses
+             the same divider used at the top of each section. -->
+        <div class="section__divider section__divider--between-projects" aria-hidden="true"></div>
+
+        <!-- PROJECT 3, ROW 1 — text | photo, but narrower photo column
+             ("card--narrow-photo": roughly 65% text / 35% photo,
+             matching your reference image's proportions) rather than
+             the usual fixed 520px photo width. -->
+        <div class="card card--narrow-photo" id="project-monet" data-gallery="monet">
+          <div class="card__body">
+            <h3 class="card__title">Art in new forms</h3>
+            <p class="card__meta">Image series · 3 · My Monet </p>
+            <p class="card__description">
+              This series was inspired by french artist Monet's 'Water Lilies' series. When I first saw his work I was encapsulated by the simplistic idea presented in such a stunning, detailed way. By using my own methods and art style, I made cherry blossoms and water reflection into my own emulation of the great artists work.
+            </p>
+          </div>
+          <div class="polaroid polaroid--straight card__photo">
+            <img src="assets/P24.png" alt="REPLACE: describe this photo" />
+          </div>
+        </div>
+
+        <!-- PROJECT 3, ROW 2 — the remaining four photos in a line,
+             all the same height ("collage--justified", matching your
+             reference image's scale/proportions), but keeping each
+             photo's own tilt rather than forcing them all straight. -->
+        <div class="collage collage--justified" data-gallery="monet">
+          <div class="polaroid polaroid--tilt-left">
+            <img src="assets/P21.png" alt="REPLACE: describe this photo" />
+          </div>
+          <div class="polaroid polaroid--tilt-right">
+            <img src="assets/P22.png" alt="REPLACE: describe this photo" />
+          </div>
+          <div class="polaroid polaroid--straight">
+            <img src="assets/P25.png" alt="REPLACE: describe this photo" />
+          </div>
+          <div class="polaroid polaroid--tilt-left">
+            <img src="assets/P23.png" alt="REPLACE: describe this photo" />
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================== PERSONAL PROJECT (feature) =====================
+         Deliberately different from the Work rows above: a full-width
+         band (no "container" on the section itself, like the hero), a
+         lilac glow behind it, and the big blackletter display face
+         reused from your name up top — so it reads as the "headline"
+         piece. See ".feature" in styles.css. -->
+    <section id="personal" class="feature">
+      <div class="feature__inner container">
+        <p class="feature__eyebrow"> DSDN142 </p>
+        <h2 class="feature__title">Personal Project</h2>
+        <p class="feature__meta">Original work  · 2026</p>
+
+        <div class="feature__text">
+          <p class="feature__description">
+            This project is about the abstract and obvious beauty of water. Evolving from "art in new forms" using water's reflections, in my personal project I used water directly, showing the movement and shapes to create sharp, eye capturing images. 
+            Originally I set out to make work that used water reflecting light, as seen in shoot 3, but along the way I saw the movement of the waves which created the downward line in shoot 1. I also saw the aftermath of the waves, where something so strong makes such fragile things, bubbles.
+                 
+          </p>
+          <p class="feature__description">
+           The idea of a personal project to me, needed to be something personal, whether my university major, or just something I love. I spend so much of my time in water, and I really love photography, so merging the two creates inspiration that fits who I am. 
+          </p>
+        </div>
+
+        <!-- "data-gallery" lives on this wrapper (not any single
+             ".polaroid") so the Sequence photo, the slideshow and
+             C1/C2 all count as one group in the lightbox — separate
+             from the Honourable Mentions group below, so enlarging a
+             photo from one never flips into the other. -->
+        <div data-gallery="reflections">
+          <!-- The sequence shot is a wide 3-panel strip, so it gets the
+               full width to itself rather than sharing a row with the
+               text (it would end up tiny in a half-width column). -->
+          <h3 class="feature__subtitle feature__photo-title">Way of Water · 2026</h3>
+          <div class="polaroid polaroid--straight feature__photo">
+            <img src="assets/Sequence.png" alt="REPLACE: describe this photo" />
+          </div>
+
+          <!-- The slideshow, now in a row with C1/C2 beside it instead
+               of text — a thin vertical line (".feature__slideshow-row
+               > :last-child" in styles.css) separates the two. Each
+               column has its own caption line sitting above its photo(s),
+               so the two captions read inline with each other too. -->
+          <div class="feature__slideshow-row">
+            <div class="feature__photo-column">
+              <p class="feature__description">
+              This slideshow displays "Shoot 2" where I display the sharp contrast of bubbles to rocks, fragile to strong, fading and perminant. As you move through the slide show, you can see the fading away of the bubbles, showing how strong waves create such dainty things.
+              </p>
+              <div class="polaroid polaroid--tilt-left" data-slideshow>
+                <div class="slideshow__track">
+                  <img class="slideshow__slide is-active" src="assets/B1.JPG" alt="REPLACE: describe this photo" />
+                  <img class="slideshow__slide" src="assets/B2.JPG" alt="REPLACE: describe this photo" aria-hidden="true" />
+                  <img class="slideshow__slide" src="assets/B3.JPG" alt="REPLACE: describe this photo" aria-hidden="true" />
+                </div>
+                <button class="slideshow__control slideshow__control--prev" type="button" data-slideshow-prev aria-label="Previous photo">‹</button>
+                <button class="slideshow__control slideshow__control--next" type="button" data-slideshow-next aria-label="Next photo">›</button>
+              </div>
+            </div>
+            <div class="feature__photo-column">
+              <p class="feature__description">
+                This pair displays "Shoot 3". This shoot is most similar to the "art in new forms" project. It uses similar ripples, and similar light and water interactions to create a pair that looks so much like a painting, which being a raw, unedited photograph.
+              </p>
+              <!-- Side by side rather than stacked, and both cropped to
+                   the same height as the slideshow (see
+                   ".feature__photo-pair" in styles.css) — smaller than
+                   before since they're now sharing this column's width
+                   between the two of them. -->
+              <div class="feature__photo-pair">
+                <div class="polaroid polaroid--straight">
+                  <img src="assets/C1.JPG" alt="REPLACE: describe this photo" />
+                </div>
+                <div class="polaroid polaroid--straight">
+                  <img src="assets/C2.JPG" alt="REPLACE: describe this photo" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- HONOURABLE MENTIONS — part of this same project rather
+             than its own section, so it's an <h3> nested under "Way
+             of Water"'s <h2>, and its photos join the same
+             "data-gallery" group above (on ".feature__inner") as the
+             rest of this project's photos in the click-to-enlarge
+             view. Text on the left, its three photos in a line on the
+             right (see ".feature__mentions" in styles.css). The same
+             hairline-and-diamond divider used elsewhere marks it off
+             from the slideshow/C1/C2 row above, without making it a
+             separate section. -->
+        <div class="section__divider feature__mentions-divider" aria-hidden="true"></div>
+        <div class="feature__mentions" data-gallery="mentions">
+          <div class="feature__text">
+            <h3 class="feature__subtitle">Honourable Mentions</h3>
+            <p class="feature__description">
+              These are some images from the final photoshoot that deserve a honerable mention. They are GORGEOUS!!!
+            </p>
+          </div>
+          <div class="collage">
+            <div class="polaroid polaroid--tilt-left">
+              <img src="assets/Shout%20out%201.JPG" alt="REPLACE: describe this photo" />
+            </div>
+            <div class="polaroid polaroid--tilt-right">
+              <img src="assets/Shout%20out%202.JPG" alt="REPLACE: describe this photo" />
+            </div>
+            <div class="polaroid polaroid--straight">
+              <img src="assets/Shout%20out%203.JPG" alt="REPLACE: describe this photo" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 4. ABOUT ME (required) ===================== -->
+    <section id="about" class="section container">
+      <h2 class="section__title">About me</h2>
+      <div class="section__divider" aria-hidden="true"></div>
+      <div class="about">
+        <!-- REPLACE the placeholder image in the assets folder,
+             or ask Claude to swap in your own photo. -->
+        <div class="polaroid polaroid--tilt-right about__polaroid">
+          <img
+            class="about__photo"
+            src="assets/Me.png"
+            alt="Georgia taking a selfie in warm afternoon light by a train window"
+          />
+        </div>
+        <div class="about__text">
+          <!-- REPLACE: 2-4 sentences about you. Who are you? What are you
+               studying? What kind of design do you care about? -->
+          <p>
+            My name is Georgia Rogers, and I am a design student at Victoria University of Wellington.
+          </p>
+          <p>
+            Born and raised in Lower Hutt, I've been artistic my whole life. My whole family is crafty, mums a primary school teacher, my sister is a concept design student as Massey doing her Masters program and my dads an author. 
+            I go to VUW, majoring in industrial design. You might be wondering why my portfolio website is about photography instead of product design and honestly, I considered switching for a while. But then I realised that this page was an oppertunity for me to make something I am passionate about that I haven't gotten to do in a while. I did photography in highschool, for 3 years infact, but not at university thusfar. So I took this website as an oppertunity to "stretch my legs" or un-cap the lense once more and did something I am incredibly proud of. 
+            I take inspiration from my family and I hope to follow in their footsteps, following my passions and living life to the fullest. 
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <!-- The year fills in automatically (see script.js). -->
+      <p>© <span id="year"></span> Georgia Rogers</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,1482 @@
+/* =============================================================
+   STYLES.CSS  —  the look of your whole website
+   =============================================================
+
+   START HERE ↓
+   The block below is your "design tokens": the colours, fonts and
+   spacing used everywhere. Change a value here and it updates across
+   the ENTIRE site. This is the easiest and best place to make the
+   site feel like YOURS.
+
+   THEME: moody, cinematic lilac photography portfolio — a near-black,
+   purple-tinted background with a soft lilac accent carrying all the
+   headings, links, buttons and small graphic details, so photos still
+   do most of the talking. A gothic blackletter display face is used
+   ONCE, big, for your name in the hero — like a film title card —
+   while a clean serif handles every other heading so the rest of the
+   site stays easy to read. The old botanical "sprig" details are
+   gone; in their place are two small graphic marks — a thin cross and
+   a four-point star — used the same way (small on photo corners,
+   larger as a quiet watermark).
+
+   TIP: Ask Claude things like
+     "Make the lilac a bit brighter/darker."
+     "Use a different serif for headings."
+     "Make everything feel more spacious."
+   ============================================================= */
+
+:root {
+  /* ---- COLOURS: near-black, purple-tinted background + lilac accent ---- */
+  --color-bg:      #120f17;   /* page background — near-black with a hint of plum */
+  --color-surface: #1d1721;   /* cards, panels — a shade up from the background */
+  --color-text:    #f2eef6;   /* main text — soft white with a whisper of lilac (reads well on the dark bg) */
+  --color-muted:   #9c8fa8;   /* secondary text — muted lilac-grey */
+  --color-border:  #2f2735;   /* thin lines — dark plum-grey */
+  --color-accent:  #d6b8ec;   /* lilac — headings glow, links, buttons — CHANGE ME to make it yours */
+  --color-accent-text: #150f1b; /* dark text on top of the (light) accent colour */
+  --color-accent-clay:  #c0abcd; /* muted lilac-grey — decorative accent (corner marks, dividers) */
+  --color-accent-clay-text: #cdb9da; /* a slightly dimmer lilac — used for small
+                                          readable labels/links so contrast stays strong on dark */
+  --color-accent-amber: #e6d6f3; /* pale pink-lilac — third decorative accent, paired with lilac
+                                      in gradients for a little extra depth */
+  --color-accent-moss:  #241c2b; /* near-black plum shadow — fourth accent (gradient depth, hover shadow) */
+
+  /* ---- GRAPHIC MARKS: two small line/shape details, reused as CSS
+     masks so they can be recoloured with background-color wherever
+     they're used (photo-frame corners, the hero watermark, and the
+     dividers between sections) — a cross and a four-point star, in
+     place of the old botanical sprigs. ---- */
+  --mark-cross: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2 V22 M2 12 H22' stroke='black' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  --mark-star: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1 L14.2 9.8 L23 12 L14.2 14.2 L12 23 L9.8 14.2 L1 12 L9.8 9.8 Z' fill='black'/%3E%3C/svg%3E");
+  --divider-line: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12'%3E%3Cpath d='M0 6 H120' stroke='black' stroke-width='1.2' fill='none'/%3E%3Cpath d='M60 1 L65 6 L60 11 L55 6 Z' fill='black'/%3E%3C/svg%3E"); /* a hairline rule with a small diamond, repeated across each section's top edge */
+
+  /* ---- FONTS ---- */
+  /* Playfair Display is a high-contrast serif used for every regular
+     heading (nav logo, section titles, project titles) — dramatic but
+     still easy to read at small sizes. UnifrakturCook is a genuine
+     gothic blackletter face, used ONCE, big, for your name in the hero
+     — a film-title moment, like the "Martha lives" reference. It would
+     be hard to read at body size, so it's kept to that one spot.
+     Poppins stays as the body font. All three are loaded from Google
+     Fonts in the <head> of index.html / project.html. */
+  --font-body:    "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-heading: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-display: "UnifrakturCook", var(--font-heading);
+
+  /* ---- SPACING & SIZES ---- */
+  --space:        1rem;       /* the base spacing unit */
+  --radius:       4px;        /* how round corners are — small, so edges stay crisp like a print */
+  --max-width:    1080px;     /* how wide content gets on big screens */
+}
+
+/* -------------------------------------------------------------
+   BASIC RESET — sensible defaults. You can usually leave this.
+   ------------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth; /* smooth scrolling to #about, #work, etc. */
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  /* A quiet dark gradient — a shade lighter at the top, settling to
+     the base near-black further down. Deliberately colourless, so
+     nothing competes with your photos. */
+  background: linear-gradient(180deg, #1c1622 0%, var(--color-bg) 45%);
+  line-height: 1.6;
+}
+
+img {
+  display: block;
+  max-width: 100%; /* stops images overflowing on small screens */
+  height: auto;
+}
+
+/* A very faint film-grain texture over the whole page — a small
+   touch of the moody, filmic feel from your reference images. It's
+   deliberately subtle: pointer-events is off so it never blocks
+   clicks, and it's built from noise, not a photo, so it stays tiny. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='120'%20height='120'%3E%3Cfilter%20id='n'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.85'%20numOctaves='2'%20stitchTiles='stitch'/%3E%3CfeColorMatrix%20type='matrix'%20values='0%200%200%200%201%200%200%200%200%201%200%200%200%200%201%200%200%200%200.04%200'/%3E%3C/filter%3E%3Crect%20width='120'%20height='120'%20filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 999;
+}
+
+a {
+  color: var(--color-accent);
+}
+
+/* -------------------------------------------------------------
+   ACCESSIBILITY  (small things that make the site usable for
+   everyone — including people using a keyboard or a screen reader)
+   ------------------------------------------------------------- */
+
+/* A clear outline shows keyboard users where they are on the page.
+   :focus-visible only shows it for keyboard focus, not mouse clicks. */
+a:focus-visible,
+button:focus-visible,
+.card:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* The "Skip to content" link. It's tucked off-screen until a keyboard
+   user tabs to it, then it appears at the top-left. */
+.skip-link {
+  position: absolute;
+  left: 0.5rem;
+  top: -3rem; /* off-screen */
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius);
+  z-index: 100;
+  transition: top 0.15s ease;
+}
+
+.skip-link:focus {
+  top: 0.5rem; /* slides into view when focused */
+}
+
+/* The .container keeps content centred and stops it getting too wide. */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space);
+}
+
+/* -------------------------------------------------------------
+   HEADER / NAVIGATION
+   ------------------------------------------------------------- */
+.site-header {
+  position: sticky;   /* the nav stays at the top as you scroll */
+  top: 0;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  z-index: 10;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 0.75rem;
+}
+
+.nav__logo {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--color-accent);
+  letter-spacing: 0.02em;
+}
+
+.nav__links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav__links a {
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.nav__links a:hover {
+  color: var(--color-accent-clay-text);
+}
+
+/* -------------------------------------------------------------
+   "WORK" DROPDOWN  — lets a visitor jump straight to one project
+   instead of scrolling past all of them. Opens on hover OR keyboard
+   focus (":focus-within" — so tabbing to "Work" reveals it, then
+   Tab again moves into the list). Pure CSS, no JS needed.
+   ------------------------------------------------------------- */
+.nav__item {
+  position: relative;
+  /* Bridges the visual gap above the dropdown: without this, moving
+     the mouse from "Work" down into the dropdown crosses a strip that
+     belongs to neither element, so ":hover" is lost for an instant
+     and the menu snaps shut before you can reach it. Padding here
+     (rather than the dropdown's own margin) keeps that strip part of
+     ".nav__item"'s own hoverable box, so the menu stays open the
+     whole way down. The negative margin cancels the extra height so
+     it doesn't push the other nav links apart. */
+  padding-bottom: 0.85rem;
+  margin-bottom: -0.85rem;
+}
+
+.nav__caret {
+  display: inline-block;
+  font-size: 0.6em;
+  margin-left: 0.2em;
+  color: var(--color-accent-clay-text);
+  transition: transform 0.15s ease;
+  /* "transform: scale" rather than a bigger "font-size": a transform
+     is purely visual and doesn't affect layout, so the arrow grows
+     without changing the line's height and pushing the whole nav bar
+     taller. */
+  transform: scale(2);
+}
+
+.nav__item:hover .nav__caret,
+.nav__item:focus-within .nav__caret {
+  transform: scale(2) translateY(1px) rotate(180deg);
+}
+
+.nav__dropdown {
+  list-style: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  /* No margin here — the gap above the panel is now ".nav__item"'s
+     own padding-bottom (see above), so there's no dead zone between
+     the two. */
+  margin-top: 0;
+  min-width: 220px;
+  padding: 0.4rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -6px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 20;
+}
+
+.nav__item:hover .nav__dropdown,
+.nav__item:focus-within .nav__dropdown {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+
+.nav__dropdown a {
+  display: block;
+  padding: 0.55rem 0.75rem;
+  border-radius: 3px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.nav__dropdown a:hover,
+.nav__dropdown a:focus-visible {
+  background: rgba(214, 184, 236, 0.12);
+  color: var(--color-accent);
+  outline: none;
+}
+
+/* A little breathing room so the sticky header doesn't cover the top
+   of a project when a dropdown link jumps to it. */
+#project-bokeh,
+#project-paua,
+#project-monet {
+  scroll-margin-top: 90px;
+}
+
+/* The hamburger button is hidden on big screens... */
+.nav__toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+}
+
+.nav__toggle span {
+  width: 24px;
+  height: 2px;
+  background: var(--color-text);
+}
+
+/* -------------------------------------------------------------
+   HERO (the big intro at the top of the home page)
+   ------------------------------------------------------------- */
+.hero {
+  padding-block: 4rem 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* The same little cross mark used elsewhere on the site, blown up
+   large and faded right back — a quiet graphic watermark tucked in
+   the corner, like a registration mark on a film print, rather than a
+   loud illustration. */
+.hero::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -10px;
+  width: 130px;
+  height: 130px;
+  background: var(--color-accent-clay);
+  opacity: 0.12;
+  -webkit-mask-image: var(--mark-cross);
+  mask-image: var(--mark-cross);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  pointer-events: none;
+}
+
+/* A soft dark vignette in the hero corners — adds a bit of cinematic
+   depth instead of one flat block of colour. */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 25% 15%, transparent 45%, rgba(0, 0, 0, 0.45) 100%);
+  pointer-events: none;
+}
+
+/* hero__inner holds all the real content, lifted above hero__bg and
+   the watermark/vignette below. */
+.hero__inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* -------------------------------------------------------------
+   HERO PHOTO BACKGROUND  — a full-bleed photo spanning the entire
+   width of the page, sitting behind the title. Because .hero (its
+   parent) no longer has the "container" class, this can use
+   `inset: 0` to fill the whole section edge to edge, rather than
+   needing a break-out-of-the-container trick.
+   ------------------------------------------------------------- */
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  /* A dark plum gradient sits ON TOP of the photo (first in the list
+     = closest to you) so the title stays readable over a bright
+     photo, fading to the solid page-background colour at the very
+     bottom. */
+  background-image:
+    linear-gradient(180deg, rgba(18, 15, 23, 0.55) 0%, rgba(18, 15, 23, 0.72) 60%, var(--color-bg) 100%),
+    url("assets/header-image.png");
+  background-size: cover, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+}
+
+.hero__eyebrow {
+  /* A small tracked, uppercase label above your name — like the
+     credit line above a film title — instead of a script flourish. */
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: var(--color-accent-clay-text);
+  font-size: 0.8rem;
+  margin-bottom: 0.75rem;
+}
+
+.hero__title {
+  /* The one spot on the site that uses the blackletter display face —
+     a big, dramatic film-title moment for your name. */
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(3rem, 8vw, 5.5rem); /* grows with screen size */
+  line-height: 1.05;
+  color: var(--color-text);
+}
+
+/* A plain hairline under the name — a quiet, precise rule instead of
+   a decorative flourish. */
+.hero__subtitle::before {
+  content: "";
+  display: block;
+  width: 70px;
+  height: 2px;
+  margin-bottom: 1.25rem;
+  background: var(--color-accent-clay);
+}
+
+.hero__subtitle {
+  color: var(--color-muted);
+  font-size: 1.2rem;
+  max-width: 40ch;
+  margin-block: 1rem 1.5rem;
+}
+
+/* -------------------------------------------------------------
+   BUTTONS
+   ------------------------------------------------------------- */
+.button {
+  /* A stark, inverted editorial button — solid bone on black, flipping
+     to an outline on hover. No colour, just contrast. */
+  display: inline-block;
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+  text-decoration: none;
+  padding: 0.7rem 1.6rem;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  border: 1px solid var(--color-accent);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.button:hover {
+  background: transparent;
+  color: var(--color-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(214, 184, 236, 0.22); /* a soft lilac glow on hover */
+}
+
+/* -------------------------------------------------------------
+   SECTIONS (About, Work, ...)
+   ------------------------------------------------------------- */
+.section {
+  padding-block: 3rem;
+}
+
+/* A repeating hairline-and-diamond strip under each section's title
+   and intro line, separating them from the content below — a plain,
+   precise divider in place of the old lace border. It's a real
+   element (".section__divider" in the HTML) rather than a "::before"
+   pseudo-element, so it can sit AFTER the heading/intro instead of
+   always being the very first thing in the section. */
+.section__divider {
+  height: 12px;
+  margin-bottom: 2.5rem;
+  /* A touch brighter than the plain "--color-border" hairline colour
+     used elsewhere (header/footer rules, photo frames) — just for
+     this divider, so those stay as quiet as before. */
+  background: #473c53;
+  -webkit-mask-image: var(--divider-line);
+  mask-image: var(--divider-line);
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  -webkit-mask-size: auto 100%;
+  mask-size: auto 100%;
+}
+
+/* A bit of extra space above this divider, so it doesn't sit right up
+   against the slideshow/C1/C2 photos above it. */
+.feature__mentions-divider {
+  margin-top: 3.5rem;
+}
+
+/* A bit of extra breathing room on top of the ".grid" row gap, so two
+   projects read as clearly separate rather than just another row. */
+.section__divider--between-projects {
+  margin-top: 1rem;
+}
+
+.section__title {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 2.1rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-text);
+  display: inline-block;
+}
+
+/* A plain hairline under each section heading, standing in for the
+   old sprig divider — precise rather than decorative. */
+.section__title::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 2px;
+  margin-top: 0.6rem;
+  background: var(--color-accent-clay);
+}
+
+.section__intro {
+  color: var(--color-muted);
+  max-width: 55ch;
+  margin-bottom: 2rem;
+}
+
+/* -------------------------------------------------------------
+   PHOTO FRAMES  (used around every photo on the site — the class is
+   still called ".polaroid" in the HTML, but it's now a minimal
+   hairline frame instead of an ornate gilt one, closer to the stark
+   editorial photography in your reference)
+   ------------------------------------------------------------- */
+.polaroid {
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  padding: 10px;
+  border-radius: 2px;
+  background: var(--color-surface);
+  box-shadow:
+    0 0 0 1px var(--color-border),
+    0 18px 40px rgba(0, 0, 0, 0.6);
+  transition: transform 0.2s ease;
+}
+
+.polaroid img {
+  display: block;
+  width: 100%;
+  border-radius: 1px;
+}
+
+/* Two small cross marks (top-left, bottom-right) — a quiet graphic
+   detail standing in for the old ornate corner flourish. */
+.polaroid::before,
+.polaroid::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: var(--color-accent-clay);
+  opacity: 0.7;
+  -webkit-mask-image: var(--mark-cross);
+  mask-image: var(--mark-cross);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  pointer-events: none;
+}
+
+.polaroid::before {
+  top: -7px;
+  left: -7px;
+}
+
+.polaroid::after {
+  bottom: -7px;
+  right: -7px;
+}
+
+/* A restrained tilt — just enough to feel hung, not scattered. The
+   cinematic look in your reference is precise and architectural
+   rather than a scrapbook. */
+.polaroid--tilt-left  { transform: rotate(-1deg); }
+.polaroid--tilt-right { transform: rotate(1deg); }
+.polaroid--straight   { transform: rotate(0deg); }
+
+.polaroid:hover {
+  transform: rotate(0deg) scale(1.03);
+}
+
+/* -------------------------------------------------------------
+   ABOUT
+   ------------------------------------------------------------- */
+.about {
+  display: grid;
+  grid-template-columns: 220px 1fr; /* photo | text */
+  gap: 2rem;
+  align-items: start;
+  position: relative;
+  overflow: hidden; /* keeps the decorative corner sprig below from causing a horizontal scrollbar */
+}
+
+/* A small watermark cross tucked behind the about photo — the same
+   family of detail as the one in the hero, just smaller. */
+.about::before {
+  content: "";
+  position: absolute;
+  left: -20px;
+  top: -20px;
+  width: 90px;
+  height: 90px;
+  background: var(--color-accent-clay);
+  opacity: 0.1;
+  -webkit-mask-image: var(--mark-cross);
+  mask-image: var(--mark-cross);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.about > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* A rounded, arched top on the about photo — a nod to the arched
+   photo frame in the cinematic reference, echoed once here rather
+   than on every photo on the site. */
+.about__polaroid,
+.about__polaroid img {
+  border-radius: 50% 50% 2px 2px / 30% 30% 2px 2px;
+}
+
+.about__text p + p {
+  margin-top: 1rem;
+}
+
+/* -------------------------------------------------------------
+   WORK GRID + PROJECT CARDS
+   ------------------------------------------------------------- */
+.grid {
+  /* Each project is now a full-width row (text beside a smaller
+     photo) rather than a tiled thumbnail grid, so this stacks rows
+     rather than tiling columns. */
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+
+.card {
+  /* A row: text on the left, a smaller photo on the right. Source
+     order matches visual order (text markup comes first), so this
+     just needs two grid tracks rather than the CSS "order" property —
+     that keeps keyboard/screen-reader order matching what's on screen. */
+  display: grid;
+  grid-template-columns: 1fr 520px;
+  align-items: center;
+  gap: 2rem;
+  text-decoration: none;
+  color: inherit;
+  text-align: left;
+  transition: transform 0.2s ease;
+}
+
+/* Hover lift + glow on each project row. (The rows used to be links
+   to separate project pages; they're plain rows now, but keep this
+   hover feel.) */
+.card:hover {
+  transform: translateY(-6px);
+}
+
+.card:hover .polaroid {
+  transform: rotate(0deg) scale(1.03);
+  /* A soft lilac glow behind the photo on hover, on top of the usual
+     lift — a quiet bit of colour as feedback that the card is
+     interactive. */
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5), 0 0 30px rgba(214, 184, 236, 0.18);
+}
+
+/* .card__photo is just the ".polaroid" frame sized down to fit its
+   520px column — the frame itself still comes from ".polaroid". */
+.card__photo {
+  width: 100%;
+}
+
+/* Flips which side the photo sits on — add it to any ".card" to put
+   the photo on the left and text on the right (the mirror image of a
+   normal card), like the collage row of "Exploration of Bokeh". */
+.card--reverse {
+  grid-template-columns: 520px 1fr;
+}
+
+/* A card with no photo of its own (e.g. when the real photos are
+   shown in a row underneath instead) — text spans the full width
+   rather than leaving an empty second column. */
+.card--text-only {
+  grid-template-columns: 1fr;
+}
+
+/* With no photo to share the row with, let the description use the
+   whole width instead of stopping at ".card__description"'s usual
+   45ch reading-column width — otherwise it reads as stuck on the
+   left with empty space beside it. */
+.card--text-only .card__description {
+  max-width: none;
+}
+
+/* A narrower photo column — roughly 65% text / 35% photo — for a row
+   matching a reference layout, instead of the usual fixed 520px. */
+.card--narrow-photo {
+  grid-template-columns: 1.86fr 1fr;
+}
+
+/* -------------------------------------------------------------
+   PHOTO COLLAGE  (used by the collage row of "Exploration of Bokeh")
+   — photos in a line rather than a one-at-a-time slideshow. Photos
+   keep their own natural proportions (no forced square crop).
+   "auto-fit, minmax(140px, 1fr)" fits as many as the row is wide
+   enough for — normally all of them in one line, wrapping to a
+   second line only if the screen gets too narrow.
+   ------------------------------------------------------------- */
+.collage {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1.5rem;
+}
+
+/* A fixed 3-column grid instead of "in a line" — used by the
+   "Exploring Colour" row (7 photos = rows of 3, 3, then 1). */
+.collage--grid3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Four equal columns, all one fixed height — matching a reference
+   image where the row reads as one continuous strip. A deliberate
+   exception to ".collage"'s usual "never crop" approach: each photo
+   needs "object-fit: cover" to fill that fixed height evenly. Each
+   photo can still keep its own "polaroid--tilt-*" angle — the crop
+   and rotation are independent of each other. */
+.collage--justified {
+  grid-template-columns: auto repeat(3, 1fr);
+  /* Setting the row height directly (not just the container height)
+     gives the first photo's "height: 100%" + "aspect-ratio: 1" a
+     definite, non-circular value to size its auto-width column from —
+     without this, the browser can't work out how wide "auto" should
+     be and the layout breaks. */
+  grid-template-rows: clamp(200px, 22vw, 300px);
+  height: clamp(200px, 22vw, 300px);
+}
+
+.collage--justified .polaroid {
+  height: 100%;
+}
+
+.collage--justified .polaroid img {
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The first photo is square (its own width, not stretched to share
+   equally with the other three) rather than being force-fit to the
+   same width — "aspect-ratio: 1" combined with the fixed height above
+   gives it a matching square width automatically. */
+.collage--justified > :first-child {
+  width: auto;
+  aspect-ratio: 1 / 1;
+}
+
+/* A small heading for an individual photo row within a project —
+   deliberately smaller than ".card__title" (the project's own
+   title), since it's a sub-heading for one row, not the project
+   itself. */
+.collage__title {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--color-text);
+  margin-bottom: 1rem;
+}
+
+.card__image {
+  width: 100%;
+  aspect-ratio: 4 / 3; /* keeps all cards the same shape */
+  object-fit: cover;
+}
+
+.card__body {
+  padding: 0;
+}
+
+.card__title {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1.3rem;
+  margin-bottom: 0.35rem;
+  color: var(--color-text);
+}
+
+.card__meta {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+}
+
+.card__description {
+  color: var(--color-text);
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 45ch;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* -------------------------------------------------------------
+   SLIDESHOW WRAPPER  (optional — not currently used by any page, but
+   kept as a ready-made way to add a manual one-at-a-time slideshow
+   with prev/next buttons and dots back in, if you ever want one
+   instead of — or alongside — the automatic kind or the collage.
+   Wrap a ".slideshow__frame.polaroid" + ".slideshow__dots" in a
+   ".slideshow" with "data-slideshow" on it, same as the automatic
+   version but with the buttons/dots included.)
+   ------------------------------------------------------------- */
+.slideshow {
+  /* width:100% (capped by max-width) rather than the default "auto"
+     — as a CSS grid item (inside a ".card--reverse" row, say) an
+     auto-width box with auto margins shrinks to fit its content
+     instead of filling the column; a definite width avoids that and
+     lets margin-inline:auto still centre it within any extra space. */
+  width: 100%;
+  max-width: 460px;
+  margin-inline: auto;
+}
+
+.slideshow__frame {
+  /* .polaroid is already `position: relative`, which the prev/next
+     buttons below use to place themselves over the frame. */
+  margin-bottom: 1.25rem;
+}
+
+.slideshow__track {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 1px;
+}
+
+.slideshow__slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.slideshow__slide.is-active {
+  opacity: 1;
+}
+
+.slideshow__control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--color-accent-amber);
+  background: linear-gradient(135deg, var(--color-surface), var(--color-bg));
+  color: var(--color-accent-amber);
+  font-size: 1.5rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.55);
+  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.slideshow__control:hover {
+  background: linear-gradient(135deg, var(--color-accent-amber), var(--color-accent-clay));
+  color: var(--color-bg);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.slideshow__control--prev { left: -4px; }
+.slideshow__control--next { right: -4px; }
+
+.slideshow__dots {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+}
+
+.slideshow__dot {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--color-accent-amber);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.slideshow__dot:hover {
+  background: var(--color-accent-clay);
+}
+
+.slideshow__dot.is-active {
+  background: var(--color-accent-amber);
+  transform: scale(1.2);
+}
+
+/* -------------------------------------------------------------
+   PROJECT PAGE
+   ------------------------------------------------------------- */
+.project__back {
+  display: inline-block;
+  text-decoration: none;
+  color: var(--color-muted);
+  margin-bottom: 1.5rem;
+}
+
+.project__back:hover {
+  color: var(--color-accent-clay-text);
+}
+
+.project__title {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  line-height: 1.1;
+  color: var(--color-text);
+}
+
+.project__meta {
+  color: var(--color-muted);
+  margin-block: 0.5rem 2rem;
+  letter-spacing: 0.02em;
+}
+
+.project__description {
+  max-width: 65ch;
+  font-size: 1.1rem;
+}
+
+.project__description p + p {
+  margin-top: 1rem;
+}
+
+.project__gallery {
+  margin-top: 2.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  justify-items: center;
+  gap: 2.5rem;
+}
+
+.project__gallery .polaroid {
+  max-width: 340px;
+}
+
+/* -------------------------------------------------------------
+   FEATURE BAND  (the personal project) — a full-width, glowing band
+   that deliberately breaks from the quieter Work rows: it spans the
+   whole page like the hero, has a lilac glow behind it, hairline
+   lilac rules top and bottom, and a much larger title in the same
+   Playfair Display serif as every other heading — so it reads as the
+   headline piece without introducing a second title font.
+   ------------------------------------------------------------- */
+.feature {
+  position: relative;
+  overflow: hidden;
+  margin-top: 3rem;
+  padding-block: 5rem;
+  background:
+    radial-gradient(ellipse 60% 70% at 15% 0%, rgba(214, 184, 236, 0.18), transparent 70%),
+    radial-gradient(ellipse 50% 60% at 100% 100%, rgba(214, 184, 236, 0.1), transparent 70%),
+    linear-gradient(180deg, var(--color-surface), var(--color-bg));
+  border-block: 1px solid rgba(214, 184, 236, 0.35);
+}
+
+/* An oversized, faint cross mark as a watermark, like the hero's. */
+.feature::before {
+  content: "";
+  position: absolute;
+  right: 4%;
+  top: 8%;
+  width: clamp(120px, 18vw, 240px);
+  aspect-ratio: 1;
+  background: var(--color-accent);
+  opacity: 0.07;
+  -webkit-mask-image: var(--mark-cross);
+  mask-image: var(--mark-cross);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  pointer-events: none;
+}
+
+.feature__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.feature__eyebrow {
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  font-size: 0.8rem;
+  color: var(--color-accent);
+  margin-bottom: 0.75rem;
+}
+
+.feature__title {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: clamp(2.75rem, 7vw, 5rem);
+  line-height: 1.05;
+  color: var(--color-text);
+  text-shadow: 0 0 40px rgba(214, 184, 236, 0.35);
+}
+
+/* A sub-heading for a secondary part of the project (e.g. "Honourable
+   Mentions") — much smaller than ".feature__title", since it's a
+   sub-section of this project rather than the headline itself. */
+.feature__subtitle {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--color-text);
+  margin-bottom: 0.75rem;
+}
+
+/* Sits above the Sequence photo, so it needs its own top space —
+   ".feature__subtitle" elsewhere (Honourable Mentions) always follows
+   straight on from a heading, so it has none by default. */
+.feature__photo-title {
+  margin-top: 3.5rem;
+  text-align: center;
+}
+
+.feature__meta {
+  color: var(--color-accent-clay-text);
+  letter-spacing: 0.04em;
+  margin-top: 0.75rem;
+}
+
+.feature__text {
+  margin-top: 2.5rem;
+}
+
+.feature__description {
+  font-size: 1.1rem;
+  line-height: 1.75;
+  /* No max-width: both this text and the Sequence photo below it sit
+     directly in ".feature__inner", so leaving this uncapped makes the
+     text run the same full width as the image. */
+}
+
+.feature__description + .feature__description {
+  margin-top: 1rem;
+}
+
+/* Honourable Mentions: text on the left, its three photos in a line
+   on the right — text gets the narrower column since there are three
+   photos to fit on the other side. */
+.feature__mentions {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2.5rem;
+  align-items: center;
+  /* Was 5rem before the divider above was added — its own 2.5rem
+     margin-bottom now supplies half that gap, so this is trimmed down
+     to keep the total space the same rather than doubling up. */
+  margin-top: 2.5rem;
+}
+
+/* The sequence photo gets the full width to itself (it's a wide
+   3-panel strip, so it would end up tiny sharing a row with the
+   text), with a brighter lilac glow so it stands out from the plain
+   frames elsewhere. */
+.feature__photo {
+  margin-top: 2.5rem;
+  box-shadow:
+    0 0 0 1px rgba(214, 184, 236, 0.5),
+    0 20px 60px rgba(0, 0, 0, 0.6),
+    0 0 70px rgba(214, 184, 236, 0.25);
+}
+
+/* The B1/B2/B3 slideshow and the C1/C2 pair side by side, with a
+   thin vertical line between them. */
+.feature__slideshow-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  /* "end" rather than "start": both columns have their own caption
+     line above their photo(s), but if one caption happens to wrap
+     onto a second line while the other doesn't, aligning the tops
+     would leave the photos themselves sitting at different heights.
+     Aligning the bottoms keeps the photos level regardless. */
+  align-items: end;
+  margin-top: 2rem;
+}
+
+.feature__photo-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+}
+
+/* The separating line sits on the second column, centred in the gap
+   between the two (half the gap's width to the left of it) rather
+   than at its own edge. */
+.feature__photo-column + .feature__photo-column::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -1.3125rem; /* half of the row's 2.5rem gap, plus half the line's own width */
+  width: 1px;
+  background: rgba(214, 184, 236, 0.35);
+}
+
+/* C1 and C2 side by side, both cropped to the same height as the
+   slideshow next to them. "aspect-ratio: 4 / 3" matches
+   ".slideshow__track"'s own — since both columns in
+   ".feature__slideshow-row" are equal width, a box with the same
+   aspect ratio comes out the same height too, without needing to
+   match a pixel value by hand. */
+.feature__photo-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  aspect-ratio: 4 / 3;
+}
+
+.feature__photo-pair .polaroid {
+  height: 100%;
+}
+
+.feature__photo-pair .polaroid img {
+  height: 100%;
+  object-fit: cover;
+}
+
+/* -------------------------------------------------------------
+   FOOTER
+   ------------------------------------------------------------- */
+.site-footer {
+  border-top: 1px solid var(--color-border);
+  padding-block: 2rem;
+  margin-top: 3rem;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+/* A tiny centred cross above the copyright line, echoing the corner
+   marks elsewhere so the page feels finished off rather than just cut
+   short. */
+.site-footer .container::before {
+  content: "";
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin: 0 auto 1rem;
+  background: var(--color-accent-clay);
+  opacity: 0.5;
+  -webkit-mask-image: var(--mark-cross);
+  mask-image: var(--mark-cross);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+/* =============================================================
+   RESPONSIVE / MOBILE STYLES
+   =============================================================
+   Everything above is the "desktop" look. The block below only
+   applies on screens NARROWER than 700px (phones and small
+   tablets). This is how the site adapts — it's the "Responsive"
+   part of the brief.
+
+   Try it: make your browser window very narrow and watch the
+   menu turn into a hamburger button.
+   ============================================================= */
+@media (max-width: 700px) {
+
+  /* Show the hamburger button... */
+  .nav__toggle {
+    display: flex;
+  }
+
+  /* ...and hide the links until the button is tapped.
+     script.js adds the class "nav__links--open" to show them. */
+  .nav__links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .nav__links--open {
+    display: flex;
+  }
+
+  .nav__links a {
+    padding: 1rem var(--space);
+    border-top: 1px solid var(--color-border);
+  }
+
+  /* On a phone there's no hover, and the menu is already a plain
+     stacked list — so the "Work" dropdown just becomes part of that
+     list (always visible, indented) rather than a floating panel. */
+  .nav__dropdown {
+    position: static;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin-top: 0;
+  }
+
+  .nav__dropdown a {
+    padding-left: calc(var(--space) * 2);
+    font-size: 0.85rem;
+    color: var(--color-muted);
+  }
+
+  /* Stack each project row — text above photo — instead of the
+     fixed text | 260px-photo columns, which are too tight on a
+     narrow screen. */
+  .card {
+    grid-template-columns: 1fr;
+  }
+
+  /* The fixed-height 4-across strip is too cramped on a phone —
+     fall back to ".collage"'s normal wrapping, natural-height rows. */
+  .collage--justified {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    height: auto;
+  }
+
+  .collage--justified .polaroid {
+    height: auto;
+  }
+
+  .collage--justified .polaroid img {
+    height: auto;
+    object-fit: initial;
+  }
+
+  .feature {
+    padding-block: 3.5rem;
+  }
+
+  /* One column below the other instead of side by side. */
+  .feature__slideshow-row,
+  .feature__mentions {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  /* The vertical separating line only makes sense side by side —
+     stacked, there's nothing to divide left from right. */
+  .feature__photo-column + .feature__photo-column::before {
+    display: none;
+  }
+
+  /* Stack the about photo above the text instead of beside it. */
+  .about {
+    grid-template-columns: 1fr;
+  }
+
+  .about__polaroid {
+    width: 160px;
+  }
+
+  /* Shrink the two big decorative watermark crosses so they stay a
+     quiet background detail instead of crowding a narrow screen. */
+  .hero::before {
+    width: 90px;
+    height: 90px;
+  }
+
+  .about::before {
+    width: 60px;
+    height: 60px;
+  }
+
+  /* Smaller frame marks so they read as a light touch rather than
+     clutter on a small screen. */
+  .polaroid::before,
+  .polaroid::after {
+    width: 13px;
+    height: 13px;
+  }
+
+  .slideshow__control {
+    width: 36px;
+    height: 36px;
+    font-size: 1.25rem;
+  }
+}
+
+/* =============================================================
+   REDUCED MOTION  (accessibility)
+   =============================================================
+   Some people feel dizzy or unwell from moving/animated interfaces,
+   so they turn on "Reduce Motion" in their computer settings. When
+   they have, we switch off the smooth scrolling and the little
+   hover animations. Good practice on every site.
+   ============================================================= */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* =============================================================
+   PHOTO LIGHTBOX  (click a photo to enlarge it)
+   script.js builds the ".lightbox" overlay. It sits over the page
+   with a dimmed, slightly see-through background so the normal
+   screen is still visible behind the enlarged photo.
+   ============================================================= */
+.polaroid.is-zoomable {
+  cursor: zoom-in;
+}
+
+.polaroid.is-zoomable:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3.5rem 1rem 1rem;
+  background: rgba(10, 8, 14, 0.82);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  cursor: zoom-out;
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+.lightbox.is-open {
+  opacity: 1;
+}
+
+.lightbox__img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 2px;
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.7);
+  cursor: default;
+}
+
+.lightbox__close {
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  border: 1px solid var(--color-accent-clay);
+  background: var(--color-surface);
+  color: var(--color-accent);
+  font-size: 1.75rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.lightbox__close:hover {
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+}
+
+/* Stops the page behind from scrolling while a photo is enlarged. */
+body.lightbox-open {
+  overflow: hidden;
+}
+
+/* Side arrows + counter for flipping through a project's photos. */
+.lightbox__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: 1px solid var(--color-accent-clay);
+  background: var(--color-surface);
+  color: var(--color-accent);
+  font-size: 2rem;
+  line-height: 1;
+  padding-bottom: 0.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.lightbox__nav[hidden] {
+  display: none;
+}
+
+.lightbox__nav:hover {
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+}
+
+.lightbox__nav--prev { left: 1rem; }
+.lightbox__nav--next { right: 1rem; }
+
+.lightbox__count {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  color: var(--color-accent-clay-text);
+}
+
+.lightbox__count[hidden] {
+  display: none;
+}
+
+/* Leave room either side of the photo for the arrows. */
+.lightbox {
+  padding-inline: 4.5rem;
+  padding-bottom: 2.5rem;
+}
+
+@media (max-width: 700px) {
+  .lightbox {
+    padding-inline: 0.5rem;
+  }
+  .lightbox__nav {
+    top: auto;
+    bottom: 0.5rem;
+    transform: none;
+  }
+}
+
+/* The stopper: at the first/last photo of a project, that arrow greys
+   out and can't be used. */
+.lightbox__nav:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.lightbox__nav:disabled:hover {
+  background: var(--color-surface);
+  color: var(--color-accent);
+}
